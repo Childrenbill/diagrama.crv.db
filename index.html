@@ -23,6 +23,7 @@
   --d:#5dc88a;--d-bg:rgba(93,200,138,0.12);--n:#5b8fd9;--n-bg:rgba(91,143,217,0.12);
   --dn:#f0a248;--dn-bg:rgba(240,162,72,0.12);--nd:#b07ed4;--nd-bg:rgba(176,126,212,0.12);
   --f:#7a8694;--f-bg:rgba(122,134,148,0.12);--dcp:#e85a5a;--dcp-bg:rgba(232,90,90,0.12);
+  --v:#d4b052;--v-bg:rgba(212,176,82,0.12);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -40,17 +41,30 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
 .user-chip{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:6px 12px 6px 8px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all .2s;flex-shrink:0}
 .user-chip:active{transform:scale(.96)}
 .user-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--max-teal);box-shadow:0 0 8px var(--max-teal)}
-.pick-screen{padding:4vh 4px 0;position:relative;z-index:1}
-.pick-logo-wrap{display:flex;flex-direction:column;gap:16px;margin-bottom:28px;align-items:flex-start}
+.user-chip.sup .dot{background:var(--dn);box-shadow:0 0 8px var(--dn)}
+.pick-screen{padding:3vh 4px 0;position:relative;z-index:1}
+.pick-logo-wrap{display:flex;flex-direction:column;gap:16px;margin-bottom:24px;align-items:flex-start}
 .pick-logo-wrap .titles{font-family:'JetBrains Mono',monospace}
 .pick-logo-wrap .titles b{display:block;font-size:14px;color:var(--text);letter-spacing:0.04em;font-weight:700}
 .pick-logo-wrap .titles small{display:block;font-size:10px;color:var(--max-teal);letter-spacing:0.22em;text-transform:uppercase;margin-top:3px}
-.pick-headline{font-size:38px;line-height:1.02;font-weight:800;letter-spacing:-0.03em;margin-bottom:12px;color:var(--text)}
+.pick-headline{font-size:36px;line-height:1.02;font-weight:800;letter-spacing:-0.03em;margin-bottom:12px;color:var(--text)}
 .pick-headline span{color:var(--max-teal);font-style:italic;font-weight:300}
-.pick-sub{color:var(--text-soft);font-size:14px;margin-bottom:32px;max-width:90%;line-height:1.5}
+.pick-sub{color:var(--text-soft);font-size:14px;margin-bottom:26px;max-width:90%;line-height:1.5}
+.role-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.role-btn{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 14px;cursor:pointer;transition:all .2s;text-align:left;font-family:inherit;color:var(--text);display:flex;flex-direction:column;gap:10px}
+.role-btn:active{transform:scale(.97)}
+.role-btn.active{border-color:var(--max-teal);background:rgba(38,181,184,0.08);box-shadow:0 0 0 1px var(--max-teal) inset}
+.role-btn .r-icon{width:40px;height:40px;border-radius:10px;background:var(--bg-2);display:flex;align-items:center;justify-content:center}
+.role-btn.active .r-icon{background:var(--max-teal)}
+.role-btn .r-icon svg{width:21px;height:21px;color:var(--text-soft)}
+.role-btn.active .r-icon svg{color:#fff}
+.role-btn .r-title{font-size:15px;font-weight:700;letter-spacing:-0.01em}
+.role-btn .r-sub{font-size:11px;color:var(--text-soft);font-family:'JetBrains Mono',monospace;letter-spacing:0.06em;text-transform:uppercase}
 .selector-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;font-weight:600}
 .selector{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;width:100%;text-align:left;font-family:inherit;color:var(--text);box-shadow:0 4px 18px rgba(0,0,0,0.15)}
 .selector:active{transform:scale(.98);background:var(--panel-2)}
+.selector[disabled]{opacity:.4;pointer-events:none}
 .selector .sel-icon{width:42px;height:42px;border-radius:10px;background:var(--max-teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px rgba(38,181,184,0.3)}
 .selector .sel-icon svg{width:22px;height:22px;color:#fff}
 .selector .sel-info{flex:1}
@@ -78,6 +92,13 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
 .turno-name{font-size:22px;font-weight:700;margin-top:6px;letter-spacing:-0.01em;color:var(--text);position:relative}
 .turno-desc{font-size:13px;color:var(--text-soft);margin-top:6px;line-height:1.5;max-width:92%;position:relative}
 .turno-range{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--max-teal);margin-top:10px;letter-spacing:0.08em;position:relative;font-weight:600}
+.sup-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:13px;margin-bottom:8px;position:relative;overflow:hidden}
+.sup-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--sup-color,var(--dn))}
+.sup-card .sup-av{width:42px;height:42px;border-radius:11px;background:var(--sup-color,var(--dn));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#0f1419;flex-shrink:0;letter-spacing:-0.02em}
+.sup-card .sup-info{flex:1;min-width:0}
+.sup-card .sup-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.sup-card .sup-name{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.01em}
+.sup-card .sup-shift{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sup-color,var(--dn));letter-spacing:0.08em;text-transform:uppercase;margin-top:2px;font-weight:600}
 .turno-next{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:8px;position:relative;overflow:hidden;cursor:pointer}
 .turno-next::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--n-color,var(--text-soft))}
 .turno-next .next-info{flex:1;min-width:0}
@@ -87,10 +108,38 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
 .turno-next .next-code{font-family:'JetBrains Mono',monospace;font-weight:800;font-size:32px;color:var(--n-color);letter-spacing:-0.04em;line-height:1}
 .turno-next .next-arrow{color:var(--muted);font-size:18px;margin-left:4px}
 .turno-next:active{transform:scale(.99);background:var(--panel-2)}
+.legend-hero{margin:14px 0 6px;background:linear-gradient(135deg, rgba(38,181,184,0.06), rgba(38,181,184,0.02));border:1px solid var(--max-teal-deep);border-left:3px solid var(--max-teal);border-radius:14px;padding:15px 17px;position:relative;overflow:hidden}
+.legend-hero .lh-top{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.legend-hero .lh-top svg{width:17px;height:17px;color:var(--max-teal);flex-shrink:0}
+.legend-hero .lh-cycle{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--max-teal-soft);letter-spacing:0.04em;text-transform:uppercase;line-height:1.3}
+.legend-hero .lh-text{font-size:12px;color:var(--text-soft);line-height:1.55;border-top:1px solid rgba(38,181,184,0.18);padding-top:9px}
+.sup-access{margin-top:16px;width:100%;background:transparent;border:1px solid var(--line);border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:9px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);transition:all .2s}
+.sup-access:active{transform:scale(.98);background:var(--bg-2)}
+.sup-access svg{width:15px;height:15px;color:var(--text-soft)}
+.sup-access .sa-chev{margin-left:auto;font-size:16px;color:var(--line-2)}
+.crew-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:8px;position:relative;overflow:hidden}
+.crew-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--sup-color,var(--d))}
+.crew-card .crew-head{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-soft);text-transform:uppercase;font-weight:600;margin-bottom:10px}
+.crew-card .crew-head svg{width:14px;height:14px;color:var(--sup-color,var(--d));flex-shrink:0}
+.crew-card .crew-head b{color:var(--text);font-size:13px;margin-left:auto;background:var(--sup-color,var(--d));color:#0f1419;padding:1px 8px;border-radius:5px;letter-spacing:0}
+.crew-card .crew-chips{display:flex;flex-wrap:wrap;gap:6px}
+.crew-card .crew-chip{font-size:12px;font-weight:600;background:var(--bg-2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:7px;letter-spacing:-0.01em}
+.crew-card .crew-empty{font-size:12px;color:var(--muted);font-style:italic}
+.mcal{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 12px 14px;margin-bottom:10px}
+.mcal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:7px}
+.mcal-head div{text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:0.04em}
+.mcal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.mcal-cell{aspect-ratio:1;border-radius:9px;background:var(--bg-2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:2px}
+.mcal-cell.empty{background:transparent;border:0}
+.mcal-cell.today{border-color:var(--max-teal);box-shadow:0 0 0 1px var(--max-teal) inset}
+.mcal-cell .mc-d{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--text-soft);line-height:1}
+.mcal-cell.today .mc-d{color:var(--max-teal)}
+.mcal-cell .mc-pill{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;color:#0f1419;padding:1px 4px;border-radius:4px;letter-spacing:-0.02em;min-width:18px;text-align:center;line-height:1.4}
+.mcal-cell .mc-pill.off{background:transparent!important;color:var(--line-2);font-weight:600}
 .subtabs{display:grid;grid-template-columns:1fr 1fr;background:var(--bg-2);padding:4px;border-radius:12px;margin:18px 0 14px;border:1px solid var(--line);gap:2px}
 .subtab{background:transparent;border:0;padding:10px 8px;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;color:var(--text-soft);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .subtab.active{background:var(--panel);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.3)}
-.subtab svg{width:14px;height:14px}
+.subtab svg{width:14px;height:14px;flex-shrink:0}
 .subtab .count{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;background:var(--max-teal);color:#0f1419;border-radius:4px;padding:1px 5px}
 .subtab:not(.active) .count{background:var(--line-2);color:var(--text-soft)}
 .people-list{display:flex;flex-direction:column;gap:6px}
@@ -138,6 +187,18 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
 .cal-date b{display:block;color:var(--text);font-size:13px;letter-spacing:0;margin-bottom:1px;font-weight:700}
 .cal-bar{height:9px;border-radius:4px;background:var(--t-color);opacity:.85}
 .cal-tag{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;color:var(--t-color);text-align:right}
+.sup-week{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.sup-day-row{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 13px}
+.sup-day-row.today{border-color:var(--max-teal);box-shadow:0 0 0 1px var(--max-teal) inset}
+.sup-day-row .sd-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text)}
+.sup-day-row .sd-date b{display:block;font-size:9px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;font-weight:600}
+.sup-day-row .sd-dow{font-size:13px;font-weight:600;color:var(--text-soft)}
+.sup-day-row .sd-pill{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;padding:4px 10px;border-radius:6px;color:#0f1419;letter-spacing:0.05em}
+.sup-legend{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 10px}
+.sup-legend .sl{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.sup-legend .sl-dot{width:11px;height:11px;border-radius:3px}
+.sup-legend .sl-txt{font-size:11px;color:var(--text-soft);font-weight:600}
+.sup-legend .sl-txt b{color:var(--text)}
 .tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(26,29,31,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:4px;z-index:50}
 .tab{background:transparent;border:0;color:var(--muted);padding:8px 14px;border-radius:9px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:70px}
 .tab.active{color:var(--max-teal)}
@@ -162,10 +223,7 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
 .modal-list button.current .av{background:var(--max-teal)}
 .modal-list .check{margin-left:auto;color:var(--max-teal);font-size:18px;font-weight:700;display:none}
 .modal-list button.current .check{display:inline}
-.legend-box{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:8px}
-.legend-box .lb-cycle{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--max-teal);letter-spacing:0.06em;text-transform:uppercase}
-.legend-box .lb-cycle svg{width:15px;height:15px;flex-shrink:0}
-.legend-box .lb-text{font-size:12px;color:var(--text-soft);line-height:1.6;border-top:1px solid var(--line);padding-top:10px}
+.modal-role-tag{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--bg-3);padding:2px 6px;border-radius:4px;margin-left:auto}
 .foot{text-align:center;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.2em;margin-top:26px;text-transform:uppercase;opacity:.7;display:flex;align-items:center;justify-content:center;gap:8px}
 ::-webkit-scrollbar{width:0}
 </style>
@@ -178,18 +236,26 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
       <div class="titles"><b>DIAGRAMA</b><small>Digital Service · CR 2026</small></div>
     </div>
     <h1 class="pick-headline">Mi <span>turno</span><br>esta semana</h1>
-    <p class="pick-sub">Empezá seleccionando tu apellido. Quedará guardado en tu celular para la próxima vez.</p>
+    <p class="pick-sub">Elegí tu apellido para ver tu diagrama de turnos. Queda guardado en tu celular para la próxima vez.</p>
     <div class="selector-label">Seleccioná tu apellido</div>
-    <button class="selector" onclick="openPicker()">
+    <button class="selector" id="pickSelector" onclick="accesoTec()">
       <div class="sel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <div class="sel-info"><div class="sel-title">Tocá para elegir</div><div class="sel-sub">15 técnicos disponibles</div></div>
+      <div class="sel-info"><div class="sel-title">Tocá para elegir</div><div class="sel-sub" id="selSub">15 técnicos</div></div>
       <div class="sel-chev">›</div>
     </button>
+    <div class="legend-hero" style="margin-top:16px">
+      <div class="lh-top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85.99 6.57 2.57L21 8"/><path d="M21 3v5h-5"/></svg>
+        <div class="lh-cycle">Ciclo 14 días trabajo / 7 franco · NOV Argentina</div>
+      </div>
+      <div class="lh-text">El presente diagrama operativo podrá sufrir modificaciones por razones operativas, licencias, enfermedades u otras eventualidades. Cualquier cambio será informado con la debida anticipación.</div>
+    </div>
     <div class="pick-hint">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      <p>Agregá esta app a la pantalla de inicio del celular para abrirla como una aplicación más, incluso sin conexión.</p>
+      <p>Agregá esta app a la pantalla de inicio del celular para abrirla como una aplicación, incluso sin conexión.</p>
     </div>
-    <p class="foot" style="margin-top:30px">MAY → DIC 2026</p>
+    <button class="sup-access" id="supAccess" onclick="accesoSup()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 .75-4.12 4.62L18 20l-6-3-6 3 1.13-6.63L3 8.75 9 8z"/></svg>Acceso supervisores<span class="sa-chev">›</span></button>
+    <p class="foot" style="margin-top:22px">MAY → DIC 2026</p>
   </div>
 
   <div id="mainWrap" style="display:none">
@@ -198,7 +264,7 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
         <div class="nov-logo"><img src="data:image/png;base64,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" alt="NOV"></div>
         <div class="label"><b>DIAGRAMA</b>DIGITAL SERVICE · CR 2026</div>
       </div>
-      <button class="user-chip" onclick="openPicker()"><span class="dot"></span><span id="userName">—</span></button>
+      <button class="user-chip" id="userChip" onclick="openPicker()"><span class="dot"></span><span id="userName">—</span></button>
     </div>
     <div id="weekView">
       <div class="week-nav">
@@ -214,194 +280,453 @@ body::before{content:'';position:fixed;inset:-10%;z-index:0;pointer-events:none;
         <div class="turno-desc" id="turnoDesc">—</div>
         <div class="turno-range" id="turnoRange"></div>
       </div>
+      <div id="supCargo" style="display:none"></div>
       <div class="turno-next" id="turnoNext" onclick="navWeek(1)">
         <div class="next-info"><div class="next-label">Siguiente turno</div><div class="next-name" id="nextName">—</div><div class="next-date" id="nextDate">—</div></div>
         <div class="next-code" id="nextCode">—</div><div class="next-arrow">›</div>
       </div>
+      <div class="legend-hero">
+        <div class="lh-top">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85.99 6.57 2.57L21 8"/><path d="M21 3v5h-5"/></svg>
+          <div class="lh-cycle">Ciclo 14 días trabajo / 7 franco · NOV Argentina</div>
+        </div>
+        <div class="lh-text">El presente diagrama operativo podrá sufrir modificaciones por razones operativas, licencias, enfermedades u otras eventualidades. Cualquier cambio será informado con la debida anticipación.</div>
+      </div>
       <div class="subtabs">
-        <button class="subtab active" id="stMismo" onclick="showSubtab('mismo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Mi turno<span class="count" id="cntMismo">0</span></button>
-        <button class="subtab" id="stTodos" onclick="showSubtab('todos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg>Semana completa<span class="count" id="cntTodos">15</span></button>
+        <button class="subtab active" id="stMismo" onclick="showSubtab('mismo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="stMismoLabel">Mi turno <span class="count" id="cntMismo">0</span></span></button>
+        <button class="subtab" id="stTodos" onclick="showSubtab('todos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg><span id="stTodosLabel">Semana completa <span class="count" id="cntTodos">15</span></span></button>
       </div>
       <div id="viewMismo" class="people-list"></div>
       <div id="viewTodos" style="display:none"></div>
       <div class="section-title">Consultar una fecha</div>
       <div class="date-search">
         <div class="title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>¿Cómo estoy el día...?</div>
-        <div class="date-search-row"><input type="date" id="dateInput" min="2026-05-07" max="2027-01-06"><button onclick="searchDate()">Ver</button></div>
+        <div class="date-search-row"><input type="date" id="dateInput" min="2025-12-26" max="2026-12-31"><button onclick="searchDate()">Ver</button></div>
         <div class="date-result" id="dateResult"></div>
-      </div>
-      <div class="section-title">Información</div>
-      <div class="legend-box">
-        <div class="lb-cycle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85.99 6.57 2.57L21 8"/><path d="M21 3v5h-5"/></svg>Ciclo 14 días trabajo / 7 franco · NOV Argentina</div>
-        <div class="lb-text">El presente diagrama operativo podrá sufrir modificaciones por razones operativas, licencias, enfermedades u otras eventualidades. Cualquier cambio será informado con la debida anticipación.</div>
       </div>
     </div>
     <div id="calView" class="cal-wrap">
-      <div class="section-title">Calendario completo · <span id="calUser" style="color:var(--max-teal);margin-left:6px"></span></div>
+      <div class="section-title"><span id="calTitle">Mi año</span> · <span id="calUser" style="color:var(--max-teal);margin-left:6px"></span></div>
+      <div class="subtabs" id="calModeToggle" style="margin:6px 0 12px">
+        <button class="subtab active" id="cmCal" onclick="setCalMode('cal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendario</button>
+        <button class="subtab" id="cmList" onclick="setCalMode('list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Lista</button>
+      </div>
+      <div class="week-nav" id="calMonthNav" style="display:none">
+        <button class="nav-btn" id="calPrevM" onclick="navCalMonth(-1)">‹</button>
+        <div class="week-label"><b id="calMonthLabel">Junio 2026</b></div>
+        <button class="nav-btn" id="calNextM" onclick="navCalMonth(1)">›</button>
+      </div>
+      <div id="calMonthWrap"></div>
       <div class="cal-grid" id="calGrid"></div>
     </div>
     <div class="foot">NOV · DIGITAL SERVICE · CR 2026</div>
   </div>
 
   <div class="tabs" id="tabs" style="display:none">
-    <button class="tab active" id="tabWeek" onclick="showTab('week')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Semana</button>
-    <button class="tab" id="tabCal" onclick="showTab('cal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Año</button>
-    <button class="tab" onclick="openPicker()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Cambiar</button>
+    <button class="tab active" id="tabWeek" onclick="showTab('week')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="tabWeekLabel">Semana</span></button>
+    <button class="tab" id="tabCal" onclick="showTab('cal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="tabCalLabel">Año</span></button>
+    <button class="tab" id="tabHome" onclick="volverInicio()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio</button>
   </div>
 
   <div class="modal-bg" id="modalBg" onclick="if(event.target.id==='modalBg')closePicker()">
     <div class="modal">
       <div class="modal-grab"></div>
-      <h3>Seleccioná tu apellido</h3>
-      <div class="modal-sub">15 técnicos · MAY → DIC 2026</div>
-      <div class="modal-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="modalSearchInput" placeholder="Buscar apellido..." oninput="filterModalList()"></div>
+      <h3 id="modalTitle">Seleccioná tu apellido</h3>
+      <div class="modal-sub" id="modalSub">15 técnicos · MAY → DIC 2026</div>
+      <div class="modal-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="modalSearchInput" placeholder="Buscar nombre..." oninput="filterModalList()"></div>
       <div class="modal-list" id="modalList"></div>
     </div>
   </div>
 </div>
-
 <script>
-const DATA = {"people": ["PAEZ", "YAPURA", "BRUGNONI", "LIENDO", "PONTELLI", "CARRIZO", "NUÑEZ", "BALDRINI", "ESTRADA", "GALLARDO", "VILLARREAL", "DIPILLA", "IBARROLA", "TOLEDO", "OYARZO"], "supervisors": ["FONSECA", "RUIZ", "PACHECHO"], "weeks": [{"label": "07 MAY", "start": {"y": 2026, "m": 5, "d": 7}, "end": {"y": 2026, "m": 5, "d": 13}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "14 MAY", "start": {"y": 2026, "m": 5, "d": 14}, "end": {"y": 2026, "m": 5, "d": 20}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "21 MAY", "start": {"y": 2026, "m": 5, "d": 21}, "end": {"y": 2026, "m": 5, "d": 27}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "28 MAY", "start": {"y": 2026, "m": 5, "d": 28}, "end": {"y": 2026, "m": 6, "d": 3}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "04 JUN", "start": {"y": 2026, "m": 6, "d": 4}, "end": {"y": 2026, "m": 6, "d": 10}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "11 JUN", "start": {"y": 2026, "m": 6, "d": 11}, "end": {"y": 2026, "m": 6, "d": 17}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "18 JUN", "start": {"y": 2026, "m": 6, "d": 18}, "end": {"y": 2026, "m": 6, "d": 24}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "25 JUN", "start": {"y": 2026, "m": 6, "d": 25}, "end": {"y": 2026, "m": 7, "d": 1}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "02 JUL", "start": {"y": 2026, "m": 7, "d": 2}, "end": {"y": 2026, "m": 7, "d": 8}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "09 JUL", "start": {"y": 2026, "m": 7, "d": 9}, "end": {"y": 2026, "m": 7, "d": 15}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "16 JUL", "start": {"y": 2026, "m": 7, "d": 16}, "end": {"y": 2026, "m": 7, "d": 22}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "23 JUL", "start": {"y": 2026, "m": 7, "d": 23}, "end": {"y": 2026, "m": 7, "d": 29}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "30 JUL", "start": {"y": 2026, "m": 7, "d": 30}, "end": {"y": 2026, "m": 8, "d": 5}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "06 AUG", "start": {"y": 2026, "m": 8, "d": 6}, "end": {"y": 2026, "m": 8, "d": 12}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "13 AUG", "start": {"y": 2026, "m": 8, "d": 13}, "end": {"y": 2026, "m": 8, "d": 19}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "20 AUG", "start": {"y": 2026, "m": 8, "d": 20}, "end": {"y": 2026, "m": 8, "d": 26}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "27 AUG", "start": {"y": 2026, "m": 8, "d": 27}, "end": {"y": 2026, "m": 9, "d": 2}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "03 SEP", "start": {"y": 2026, "m": 9, "d": 3}, "end": {"y": 2026, "m": 9, "d": 9}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "10 SEP", "start": {"y": 2026, "m": 9, "d": 10}, "end": {"y": 2026, "m": 9, "d": 16}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "17 SEP", "start": {"y": 2026, "m": 9, "d": 17}, "end": {"y": 2026, "m": 9, "d": 23}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "24 SEP", "start": {"y": 2026, "m": 9, "d": 24}, "end": {"y": 2026, "m": 9, "d": 30}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "01 OCT", "start": {"y": 2026, "m": 10, "d": 1}, "end": {"y": 2026, "m": 10, "d": 7}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "08 OCT", "start": {"y": 2026, "m": 10, "d": 8}, "end": {"y": 2026, "m": 10, "d": 14}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "15 OCT", "start": {"y": 2026, "m": 10, "d": 15}, "end": {"y": 2026, "m": 10, "d": 21}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "22 OCT", "start": {"y": 2026, "m": 10, "d": 22}, "end": {"y": 2026, "m": 10, "d": 28}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "29 OCT", "start": {"y": 2026, "m": 10, "d": 29}, "end": {"y": 2026, "m": 11, "d": 4}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "05 NOV", "start": {"y": 2026, "m": 11, "d": 5}, "end": {"y": 2026, "m": 11, "d": 11}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "12 NOV", "start": {"y": 2026, "m": 11, "d": 12}, "end": {"y": 2026, "m": 11, "d": 18}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "19 NOV", "start": {"y": 2026, "m": 11, "d": 19}, "end": {"y": 2026, "m": 11, "d": 25}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "26 NOV", "start": {"y": 2026, "m": 11, "d": 26}, "end": {"y": 2026, "m": 12, "d": 2}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "03 DEC", "start": {"y": 2026, "m": 12, "d": 3}, "end": {"y": 2026, "m": 12, "d": 9}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "10 DEC", "start": {"y": 2026, "m": 12, "d": 10}, "end": {"y": 2026, "m": 12, "d": 16}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "17 DEC", "start": {"y": 2026, "m": 12, "d": 17}, "end": {"y": 2026, "m": 12, "d": 23}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "24 DEC", "start": {"y": 2026, "m": 12, "d": 24}, "end": {"y": 2026, "m": 12, "d": 30}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "31 DEC", "start": {"y": 2026, "m": 12, "d": 31}, "end": {"y": 2027, "m": 1, "d": 6}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}]};
+const DATA = {"people": ["PAEZ", "YAPURA", "BRUGNONI", "LIENDO", "PONTELLI", "CARRIZO", "NUÑEZ", "BALDRINI", "ESTRADA", "GALLARDO", "VILLARREAL", "DIPILLA", "IBARROLA", "TOLEDO", "OYARZO"], "supervisors": ["BILL", "FONSECA", "PACHECO", "RUIZ"], "weeks": [{"label": "07 MAY", "start": {"y": 2026, "m": 5, "d": 7}, "end": {"y": 2026, "m": 5, "d": 13}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "14 MAY", "start": {"y": 2026, "m": 5, "d": 14}, "end": {"y": 2026, "m": 5, "d": 20}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "21 MAY", "start": {"y": 2026, "m": 5, "d": 21}, "end": {"y": 2026, "m": 5, "d": 27}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "28 MAY", "start": {"y": 2026, "m": 5, "d": 28}, "end": {"y": 2026, "m": 6, "d": 3}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "04 JUN", "start": {"y": 2026, "m": 6, "d": 4}, "end": {"y": 2026, "m": 6, "d": 10}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "11 JUN", "start": {"y": 2026, "m": 6, "d": 11}, "end": {"y": 2026, "m": 6, "d": 17}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "18 JUN", "start": {"y": 2026, "m": 6, "d": 18}, "end": {"y": 2026, "m": 6, "d": 24}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "25 JUN", "start": {"y": 2026, "m": 6, "d": 25}, "end": {"y": 2026, "m": 7, "d": 1}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "02 JUL", "start": {"y": 2026, "m": 7, "d": 2}, "end": {"y": 2026, "m": 7, "d": 8}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "09 JUL", "start": {"y": 2026, "m": 7, "d": 9}, "end": {"y": 2026, "m": 7, "d": 15}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "16 JUL", "start": {"y": 2026, "m": 7, "d": 16}, "end": {"y": 2026, "m": 7, "d": 22}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "23 JUL", "start": {"y": 2026, "m": 7, "d": 23}, "end": {"y": 2026, "m": 7, "d": 29}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "30 JUL", "start": {"y": 2026, "m": 7, "d": 30}, "end": {"y": 2026, "m": 8, "d": 5}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "06 AUG", "start": {"y": 2026, "m": 8, "d": 6}, "end": {"y": 2026, "m": 8, "d": 12}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "13 AUG", "start": {"y": 2026, "m": 8, "d": 13}, "end": {"y": 2026, "m": 8, "d": 19}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "20 AUG", "start": {"y": 2026, "m": 8, "d": 20}, "end": {"y": 2026, "m": 8, "d": 26}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "27 AUG", "start": {"y": 2026, "m": 8, "d": 27}, "end": {"y": 2026, "m": 9, "d": 2}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "03 SEP", "start": {"y": 2026, "m": 9, "d": 3}, "end": {"y": 2026, "m": 9, "d": 9}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "10 SEP", "start": {"y": 2026, "m": 9, "d": 10}, "end": {"y": 2026, "m": 9, "d": 16}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "17 SEP", "start": {"y": 2026, "m": 9, "d": 17}, "end": {"y": 2026, "m": 9, "d": 23}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "24 SEP", "start": {"y": 2026, "m": 9, "d": 24}, "end": {"y": 2026, "m": 9, "d": 30}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "01 OCT", "start": {"y": 2026, "m": 10, "d": 1}, "end": {"y": 2026, "m": 10, "d": 7}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "08 OCT", "start": {"y": 2026, "m": 10, "d": 8}, "end": {"y": 2026, "m": 10, "d": 14}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "15 OCT", "start": {"y": 2026, "m": 10, "d": 15}, "end": {"y": 2026, "m": 10, "d": 21}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "22 OCT", "start": {"y": 2026, "m": 10, "d": 22}, "end": {"y": 2026, "m": 10, "d": 28}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "29 OCT", "start": {"y": 2026, "m": 10, "d": 29}, "end": {"y": 2026, "m": 11, "d": 4}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "05 NOV", "start": {"y": 2026, "m": 11, "d": 5}, "end": {"y": 2026, "m": 11, "d": 11}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "12 NOV", "start": {"y": 2026, "m": 11, "d": 12}, "end": {"y": 2026, "m": 11, "d": 18}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "19 NOV", "start": {"y": 2026, "m": 11, "d": 19}, "end": {"y": 2026, "m": 11, "d": 25}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "26 NOV", "start": {"y": 2026, "m": 11, "d": 26}, "end": {"y": 2026, "m": 12, "d": 2}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D", "LIENDO": "D", "PONTELLI": "D", "CARRIZO": "N", "NUÑEZ": "N", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D-N", "VILLARREAL": "D-N", "DIPILLA": "N-D", "IBARROLA": "N-D", "TOLEDO": "N-D", "OYARZO": "D CP"}}, {"label": "03 DEC", "start": {"y": 2026, "m": 12, "d": 3}, "end": {"y": 2026, "m": 12, "d": 9}, "turnos": {"PAEZ": "D", "YAPURA": "D", "BRUGNONI": "N", "LIENDO": "N", "PONTELLI": "N", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D-N", "ESTRADA": "D-N", "GALLARDO": "N-D", "VILLARREAL": "N-D", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "10 DEC", "start": {"y": 2026, "m": 12, "d": 10}, "end": {"y": 2026, "m": 12, "d": 16}, "turnos": {"PAEZ": "N", "YAPURA": "N", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D-N", "NUÑEZ": "D-N", "BALDRINI": "N-D", "ESTRADA": "N-D", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D", "IBARROLA": "D", "TOLEDO": "D CP", "OYARZO": "F"}}, {"label": "17 DEC", "start": {"y": 2026, "m": 12, "d": 17}, "end": {"y": 2026, "m": 12, "d": 23}, "turnos": {"PAEZ": "F", "YAPURA": "F", "BRUGNONI": "D-N", "LIENDO": "D-N", "PONTELLI": "D-N", "CARRIZO": "N-D", "NUÑEZ": "N-D", "BALDRINI": "F", "ESTRADA": "F", "GALLARDO": "D", "VILLARREAL": "D", "DIPILLA": "N", "IBARROLA": "N", "TOLEDO": "N", "OYARZO": "D CP"}}, {"label": "24 DEC", "start": {"y": 2026, "m": 12, "d": 24}, "end": {"y": 2026, "m": 12, "d": 30}, "turnos": {"PAEZ": "D-N", "YAPURA": "D-N", "BRUGNONI": "N-D", "LIENDO": "N-D", "PONTELLI": "N-D", "CARRIZO": "F", "NUÑEZ": "F", "BALDRINI": "D", "ESTRADA": "D", "GALLARDO": "N", "VILLARREAL": "N", "DIPILLA": "F", "IBARROLA": "F", "TOLEDO": "F", "OYARZO": "D CP"}}, {"label": "31 DEC", "start": {"y": 2026, "m": 12, "d": 31}, "end": {"y": 2027, "m": 1, "d": 6}, "turnos": {"PAEZ": "N-D", "YAPURA": "N-D", "BRUGNONI": "F", "LIENDO": "F", "PONTELLI": "F", "CARRIZO": "D", "NUÑEZ": "D", "BALDRINI": "N", "ESTRADA": "N", "GALLARDO": "F", "VILLARREAL": "F", "DIPILLA": "D-N", "IBARROLA": "D-N", "TOLEDO": "D CP", "OYARZO": "F"}}], "supDays": [{"y": 2025, "m": 12, "d": 26, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2025, "m": 12, "d": 27, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2025, "m": 12, "d": 28, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2025, "m": 12, "d": 29, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2025, "m": 12, "d": 30, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2025, "m": 12, "d": 31, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 1, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 2, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 3, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 4, "turnos": {"BILL": "F", "FONSECA": "V", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 5, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 6, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 7, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 8, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 9, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 10, "turnos": {"BILL": "F", "FONSECA": "V", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 11, "turnos": {"BILL": "F", "FONSECA": "V", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 12, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 13, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 14, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 15, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 16, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 17, "turnos": {"BILL": "F", "FONSECA": "V", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 18, "turnos": {"BILL": "F", "FONSECA": "V", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 19, "turnos": {"BILL": "D", "FONSECA": "V", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 1, "d": 20, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 21, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 22, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 23, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 1, "d": 24, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 25, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 26, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 27, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 28, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 29, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 30, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 1, "d": 31, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "V", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 1, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 2, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 3, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 4, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "V", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 5, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 6, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 7, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 8, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 9, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 10, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 11, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 12, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 2, "d": 13, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 14, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 15, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 16, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 17, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 18, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 19, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 20, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 21, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 22, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 23, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 24, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 2, "d": 25, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 26, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 27, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 2, "d": 28, "turnos": {"BILL": "V", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 1, "turnos": {"BILL": "V", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 2, "turnos": {"BILL": "V", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 3, "turnos": {"BILL": "V", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 4, "turnos": {"BILL": "V", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 5, "turnos": {"BILL": "V", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 6, "turnos": {"BILL": "V", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 7, "turnos": {"BILL": "V", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 8, "turnos": {"BILL": "V", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 9, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 10, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 11, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 12, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 13, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 14, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 15, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 16, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 17, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 18, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 19, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 20, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 3, "d": 21, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 22, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 23, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 24, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 3, "d": 25, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 26, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 27, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 28, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 29, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 30, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 3, "d": 31, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 1, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 2, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 3, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 4, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 5, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 6, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 7, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 8, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 9, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 10, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 11, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 12, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 13, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 4, "d": 14, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 15, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 16, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 17, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 18, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 19, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 20, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 21, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 22, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 23, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 24, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 25, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 4, "d": 26, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 27, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 28, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 29, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 4, "d": 30, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 1, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 2, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 3, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 4, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 5, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 6, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 7, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 8, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 9, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 10, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 11, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 12, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 13, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 14, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 15, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 16, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 17, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 18, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 19, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 5, "d": 20, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 21, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 22, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 23, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 5, "d": 24, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 25, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 26, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 27, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 28, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 29, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 30, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 5, "d": 31, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 1, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 2, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 3, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 4, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 5, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 6, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 7, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 8, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 9, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 10, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 11, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 12, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 13, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 14, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 15, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 16, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 17, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 18, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 19, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 20, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 21, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 22, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 23, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 24, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 6, "d": 25, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 26, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 27, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 28, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 6, "d": 29, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 6, "d": 30, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 1, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 2, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 3, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 4, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 5, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 6, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 7, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 8, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 9, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 10, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 11, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 12, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 13, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 14, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 15, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 16, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 17, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 18, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 7, "d": 19, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 20, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 21, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 22, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 7, "d": 23, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 24, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 25, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 26, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 27, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 28, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 29, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 30, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 7, "d": 31, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 1, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 2, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 3, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 4, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 5, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 6, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 7, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 8, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 9, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 10, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 11, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 12, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 13, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 14, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 15, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 16, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 17, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 18, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 19, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 20, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 21, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 22, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 23, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 8, "d": 24, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 25, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 26, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 27, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 8, "d": 28, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 29, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 30, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 8, "d": 31, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 1, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 2, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 3, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 4, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 5, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 6, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 7, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 8, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 9, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 10, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 11, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 12, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 13, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 14, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 15, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 16, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 9, "d": 17, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 18, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 19, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 20, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 21, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 22, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 23, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 24, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 25, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 26, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 27, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 28, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 9, "d": 29, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 9, "d": 30, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 1, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 2, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 3, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 4, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 5, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 6, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 7, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 8, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 9, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 10, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 11, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 12, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 13, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 14, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 15, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 16, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 17, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 18, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 19, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 20, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 21, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 22, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 10, "d": 23, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 24, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 25, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 26, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 10, "d": 27, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 28, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 29, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 30, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 10, "d": 31, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 1, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 2, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 3, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 4, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 5, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 6, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 7, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 8, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 9, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 10, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 11, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 12, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 13, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 14, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 15, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 11, "d": 16, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 17, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 18, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 19, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 20, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 21, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 22, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 23, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 24, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 25, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 26, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 27, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 11, "d": 28, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 29, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 11, "d": 30, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 1, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 2, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 3, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 4, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 5, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 6, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 7, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 8, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 9, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 10, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 11, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 12, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 13, "turnos": {"BILL": "F", "FONSECA": "N", "PACHECO": "D", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 14, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 15, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 16, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 17, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "D", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 18, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 19, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 20, "turnos": {"BILL": "F", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 21, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "F", "RUIZ": "N"}}, {"y": 2026, "m": 12, "d": 22, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 23, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 24, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 25, "turnos": {"BILL": "D", "FONSECA": "D", "PACHECO": "N", "RUIZ": "F"}}, {"y": 2026, "m": 12, "d": 26, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 27, "turnos": {"BILL": "F", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 28, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 29, "turnos": {"BILL": "D", "FONSECA": "F", "PACHECO": "N", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 30, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}, {"y": 2026, "m": 12, "d": 31, "turnos": {"BILL": "D", "FONSECA": "N", "PACHECO": "F", "RUIZ": "D"}}]};
 const TURNOS = {
   'D':    {color:'var(--d)',   bg:'var(--d-bg)',   name:'Día',           desc:'Turno de día durante toda la semana.'},
   'N':    {color:'var(--n)',   bg:'var(--n-bg)',   name:'Noche',         desc:'Turno de noche durante toda la semana.'},
   'D-N':  {color:'var(--dn)',  bg:'var(--dn-bg)',  name:'Día → Noche',   desc:'Arrancás de día y cambiás a noche en la semana.'},
   'N-D':  {color:'var(--nd)',  bg:'var(--nd-bg)',  name:'Noche → Día',   desc:'Arrancás de noche y pasás a día en la semana.'},
   'F':    {color:'var(--f)',   bg:'var(--f-bg)',   name:'Franco',        desc:'Semana de descanso completo.'},
-  'D CP': {color:'var(--dcp)', bg:'var(--dcp-bg)', name:'Día · CP',      desc:'Día con cobertura especial (CP).'}
+  'D CP': {color:'var(--dcp)', bg:'var(--dcp-bg)', name:'Día · CP',      desc:'Día con cobertura especial (CP).'},
+  'V':    {color:'var(--v)',   bg:'var(--v-bg)',   name:'Vacaciones',    desc:'Período de vacaciones.'}
 };
-const TURNO_ORDER = ['D','D CP','N','D-N','N-D','F'];
+const TURNO_ORDER = ['D','D CP','N','D-N','N-D','F','V'];
 const MONTH_ES = ['','ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+const DOW_ES = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+const DOW_MON = ['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'];
+const DOW_FULL = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const MONTH_FULL = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const SUP_MIN = new Date(2025,11,1), SUP_MAX = new Date(2026,11,1);
+const TEC_MIN = new Date(2026,4,1), TEC_MAX = new Date(2027,0,1);
+const SUP_RULE = {'D':'dia','D CP':'dia','D-N':'dia','N':'noche','N-D':'noche','F':null,'V':null};
+const SUP_COLORS = {'BILL':'var(--d)','FONSECA':'var(--n)','PACHECO':'var(--dn)','RUIZ':'var(--nd)'};
+
+let currentRole = localStorage.getItem('escalera_role') || null;
 let currentUser = localStorage.getItem('escalera_user') || null;
+let pendingRole = null;
 let currentWeek = 0;
+let currentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+let calMode = 'cal';
+let calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
+const supIdx = {};
+DATA.supDays.forEach(s=>{ supIdx[key(s.y,s.m,s.d)] = s.turnos; });
+function key(y,m,d){return y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0')}
+function pad(n){return String(n).padStart(2,'0')}
 
 function init(){
-  buildModalList();
-  if(currentUser && DATA.people.includes(currentUser)){ showApp(); }
-  else { document.getElementById('pickScreen').style.display='block'; document.getElementById('mainWrap').style.display='none'; document.getElementById('tabs').style.display='none'; }
+  if(currentRole && currentUser){
+    const valid = (currentRole==='tecnico' && DATA.people.includes(currentUser)) ||
+                  (currentRole==='supervisor' && DATA.supervisors.includes(currentUser));
+    if(valid){ showApp(); return; }
+  }
+  showPick();
 }
+function showPick(){
+  document.getElementById('pickScreen').style.display='block';
+  document.getElementById('mainWrap').style.display='none';
+  document.getElementById('tabs').style.display='none';
+  pendingRole = 'tecnico';
+  document.getElementById('selSub').textContent = '15 técnicos';
+  window.scrollTo({top:0});
+}
+function volverInicio(){ closePicker(); showPick(); }
+function accesoTec(){ pendingRole='tecnico'; openPicker(); }
+function accesoSup(){ pendingRole='supervisor'; openPicker(); }
+function openPicker(){
+  if(!pendingRole) pendingRole = currentRole || 'tecnico';
+  buildModalList();
+  document.getElementById('modalBg').classList.add('active');
+  const s=document.getElementById('modalSearchInput'); s.value=''; filterModalList(); setTimeout(()=>s.focus(),300);
+}
+function closePicker(){document.getElementById('modalBg').classList.remove('active')}
 function buildModalList(){
-  const list = document.getElementById('modalList'); list.innerHTML = '';
-  DATA.people.forEach((p)=>{
-    const mb = document.createElement('button'); mb.dataset.name = p;
-    if(p===currentUser) mb.classList.add('current');
-    mb.innerHTML = `<span class="av">${initials(p)}</span><span>${p}</span><span class="check">✓</span>`;
-    mb.onclick = ()=>{selectUser(p);closePicker();}; list.appendChild(mb);
+  const list=document.getElementById('modalList'); list.innerHTML='';
+  const arr = pendingRole==='supervisor' ? DATA.supervisors : DATA.people;
+  const tag = pendingRole==='supervisor' ? 'Supervisor' : 'Técnico';
+  document.getElementById('modalTitle').textContent = pendingRole==='supervisor'?'Seleccioná tu nombre':'Seleccioná tu apellido';
+  document.getElementById('modalSub').textContent = arr.length+' '+(pendingRole==='supervisor'?'supervisores':'técnicos')+' · MAY → DIC 2026';
+  arr.forEach(p=>{
+    const mb=document.createElement('button'); mb.dataset.name=p;
+    if(p===currentUser && pendingRole===currentRole) mb.classList.add('current');
+    mb.innerHTML='<span class="av">'+initials(p)+'</span><span>'+p+'</span><span class="modal-role-tag">'+tag+'</span><span class="check">✓</span>';
+    mb.onclick=()=>{selectUser(p);};
+    list.appendChild(mb);
   });
 }
 function filterModalList(){
-  const q = document.getElementById('modalSearchInput').value.toLowerCase().trim();
-  document.querySelectorAll('#modalList button').forEach(b=>{ b.style.display = (!q||b.dataset.name.toLowerCase().includes(q))?'flex':'none'; });
+  const q=document.getElementById('modalSearchInput').value.toLowerCase().trim();
+  document.querySelectorAll('#modalList button').forEach(b=>{ b.style.display=(!q||b.dataset.name.toLowerCase().includes(q))?'flex':'none'; });
 }
 function initials(name){return name.replace('Ñ','N').slice(0,2)}
 function selectUser(p){
-  currentUser = p; localStorage.setItem('escalera_user', p);
-  document.querySelectorAll('#modalList button').forEach(b=>{ b.classList.toggle('current', b.dataset.name===p); });
-  showApp();
+  currentUser=p; currentRole=pendingRole;
+  localStorage.setItem('escalera_user',p); localStorage.setItem('escalera_role',currentRole);
+  closePicker(); showApp();
 }
 function showApp(){
-  document.getElementById('pickScreen').style.display='none'; document.getElementById('mainWrap').style.display='block'; document.getElementById('tabs').style.display='flex';
-  document.getElementById('userName').textContent = currentUser; document.getElementById('calUser').textContent = currentUser;
-  currentWeek = findCurrentWeek(); render();
+  pendingRole=currentRole;
+  const isSup = currentRole==='supervisor';
+  document.getElementById('pickScreen').style.display='none';
+  document.getElementById('mainWrap').style.display='block';
+  document.getElementById('tabs').style.display='flex';
+  document.getElementById('userName').textContent=currentUser;
+  document.getElementById('userChip').classList.toggle('sup', isSup);
+  document.getElementById('calUser').textContent=currentUser;
+  document.getElementById('tabWeekLabel').textContent = isSup?'Mi mes':'Semana';
+  document.getElementById('tabCal').style.display = isSup?'none':'flex';
+  currentWeek=findCurrentWeek();
+  currentMonth=new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  let cm0=new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  if(cm0<TEC_MIN) cm0=new Date(TEC_MIN); if(cm0>TEC_MAX) cm0=new Date(TEC_MAX);
+  calMonth=cm0; calMode='cal';
+  showTab('week');
 }
 function weekStartDate(w){ return new Date(w.start.y, w.start.m-1, w.start.d); }
 function weekEndDate(w){ return new Date(w.end.y, w.end.m-1, w.end.d); }
 function findCurrentWeek(){
-  const now = new Date(); let idx = 0;
-  for(let i=0;i<DATA.weeks.length;i++){ if(weekStartDate(DATA.weeks[i]) <= now) idx = i; else break; }
+  const now=new Date(); now.setHours(0,0,0,0); let idx=0;
+  for(let i=0;i<DATA.weeks.length;i++){ if(weekStartDate(DATA.weeks[i])<=now) idx=i; else break; }
   return idx;
 }
 function findWeekForDate(date){
   for(let i=0;i<DATA.weeks.length;i++){
-    const start = weekStartDate(DATA.weeks[i]); const end = weekEndDate(DATA.weeks[i]);
-    const endPlus = new Date(end); endPlus.setHours(23,59,59);
-    if(date >= start && date <= endPlus) return i;
+    const s=weekStartDate(DATA.weeks[i]); const e=weekEndDate(DATA.weeks[i]); const ep=new Date(e); ep.setHours(23,59,59);
+    if(date>=s && date<=ep) return i;
   }
   return -1;
 }
+function supervisorForWeek(w, which){
+  if(!w.start) return null;
+  const start=weekStartDate(w), end=weekEndDate(w); const cnt={};
+  let cur=new Date(start);
+  while(cur<=end){
+    const t=supIdx[key(cur.getFullYear(),cur.getMonth()+1,cur.getDate())];
+    if(t){ DATA.supervisors.forEach(s=>{
+      if(s==='BILL') return; // se desestima a BILL (supervisor de base, no rota con las cuadrillas)
+      const v=t[s];
+      if(which==='dia' && v==='D') cnt[s]=(cnt[s]||0)+1;
+      if(which==='noche' && v==='N') cnt[s]=(cnt[s]||0)+1;
+    }); }
+    cur.setDate(cur.getDate()+1);
+  }
+  let best=null,bestN=0; for(const s in cnt){ if(cnt[s]>bestN){bestN=cnt[s];best=s;} }
+  return best;
+}
+// Técnicos que comparten el turno (día/noche) en la semana w
+function techsForShift(w, which){
+  return DATA.people.filter(p=>SUP_RULE[w.turnos[p]]===which);
+}
 function render(){
-  const w = DATA.weeks[currentWeek]; const turno = w.turnos[currentUser];
-  const conf = TURNOS[turno] || {color:'var(--text)',bg:'var(--panel)',name:turno,desc:''};
-  document.getElementById('weekIdx').textContent = `SEMANA ${currentWeek+1} / ${DATA.weeks.length}`;
-  document.getElementById('weekLabel').textContent = `${pad(w.start.d)} ${MONTH_ES[w.start.m]} ${w.start.y}`;
-  const isCurrentWeek = (currentWeek === findCurrentWeek());
-  document.getElementById('turnoMetaWeek').textContent = isCurrentWeek ? 'esta semana' : 'esa semana';
-  document.getElementById('turnoCode').textContent = turno;
-  document.getElementById('turnoName').textContent = conf.name;
-  document.getElementById('turnoDesc').textContent = conf.desc;
-  document.getElementById('turnoRange').textContent = `${pad(w.start.d)} ${MONTH_ES[w.start.m]} → ${pad(w.end.d)} ${MONTH_ES[w.end.m]} ${w.end.y}`;
-  const card = document.getElementById('turnoCard'); card.style.setProperty('--t-color', conf.color); card.style.setProperty('--t-bg', conf.bg);
-  document.getElementById('nowBadge').style.display = isCurrentWeek ? 'inline-flex' : 'none';
-  document.getElementById('prevW').disabled = currentWeek===0; document.getElementById('nextW').disabled = currentWeek===DATA.weeks.length-1;
-  const nextEl = document.getElementById('turnoNext');
-  if(currentWeek < DATA.weeks.length-1){
-    const nw = DATA.weeks[currentWeek+1]; const nt = nw.turnos[currentUser]; const nc = TURNOS[nt] || {color:'var(--text)',name:nt};
-    document.getElementById('nextCode').textContent = nt; document.getElementById('nextName').textContent = nc.name;
-    document.getElementById('nextDate').textContent = `Semana del ${pad(nw.start.d)} ${MONTH_ES[nw.start.m]}`;
-    nextEl.style.setProperty('--n-color', nc.color); nextEl.style.display = 'flex';
-  } else { nextEl.style.display = 'none'; }
-  const mismo = DATA.people.filter(p => p!==currentUser && w.turnos[p]===turno);
-  document.getElementById('cntMismo').textContent = mismo.length;
-  const viewMismo = document.getElementById('viewMismo'); viewMismo.innerHTML = '';
-  if(mismo.length===0){ viewMismo.innerHTML = `<div class="empty">Nadie más tiene el turno <b>${turno}</b> esta semana</div>`; }
-  else { mismo.forEach(p=>{
-      const div = document.createElement('div'); div.className='person-row same';
-      div.style.setProperty('--c-color', conf.color); div.style.setProperty('--c-bg', conf.bg);
-      div.innerHTML = `<div class="avatar">${initials(p)}</div><div class="info"><div class="name">${p}</div><div class="turno-tag">${turno} · ${conf.name}</div></div><span class="turno-pill">${turno}</span>`;
-      viewMismo.appendChild(div);
-  }); }
-  document.getElementById('cntTodos').textContent = DATA.people.length;
-  const viewTodos = document.getElementById('viewTodos'); viewTodos.innerHTML = '';
-  const groups = {}; DATA.people.forEach(p=>{ const t = w.turnos[p]; if(!groups[t]) groups[t]=[]; groups[t].push(p); });
+  const w=DATA.weeks[currentWeek]; const turno=w.turnos[currentUser];
+  const conf=TURNOS[turno]||{color:'var(--text)',bg:'var(--panel)',name:turno,desc:''};
+  document.getElementById('weekIdx').textContent='SEMANA '+(currentWeek+1)+' / '+DATA.weeks.length;
+  document.getElementById('weekLabel').textContent=pad(w.start.d)+' '+MONTH_ES[w.start.m]+' '+w.start.y;
+  const isCur=(currentWeek===findCurrentWeek());
+  document.getElementById('turnoMetaWeek').textContent=isCur?'esta semana':'esa semana';
+  document.getElementById('turnoCode').textContent=turno;
+  document.getElementById('turnoName').textContent=conf.name;
+  document.getElementById('turnoDesc').textContent=conf.desc;
+  document.getElementById('turnoRange').textContent=pad(w.start.d)+' '+MONTH_ES[w.start.m]+' → '+pad(w.end.d)+' '+MONTH_ES[w.end.m]+' '+w.end.y;
+  document.getElementById('turnoCard').style.setProperty('--t-color',conf.color);
+  document.getElementById('nowBadge').style.display=isCur?'inline-flex':'none';
+  document.getElementById('prevW').disabled=currentWeek===0; document.getElementById('nextW').disabled=currentWeek===DATA.weeks.length-1;
+  const supWrap=document.getElementById('supCargo'); const which=SUP_RULE[turno];
+  if(which){
+    const sup=supervisorForWeek(w,which);
+    if(sup){
+      const col=SUP_COLORS[sup]||'var(--dn)'; const shiftTxt=which==='dia'?'Supervisor de día':'Supervisor de noche';
+      supWrap.innerHTML='<div class="sup-card" style="--sup-color:'+col+'"><div class="sup-av">'+initials(sup)+'</div><div class="sup-info"><div class="sup-label">Supervisor a cargo</div><div class="sup-name">'+sup+'</div><div class="sup-shift">'+shiftTxt+'</div></div></div>';
+      supWrap.style.display='block';
+    } else supWrap.style.display='none';
+  } else supWrap.style.display='none';
+  const nextEl=document.getElementById('turnoNext');
+  if(currentWeek<DATA.weeks.length-1){
+    const nw=DATA.weeks[currentWeek+1]; const nt=nw.turnos[currentUser]; const nc=TURNOS[nt]||{color:'var(--text)',name:nt};
+    document.getElementById('nextCode').textContent=nt; document.getElementById('nextName').textContent=nc.name;
+    document.getElementById('nextDate').textContent='Semana del '+pad(nw.start.d)+' '+MONTH_ES[nw.start.m];
+    nextEl.style.setProperty('--n-color',nc.color); nextEl.style.display='flex';
+  } else nextEl.style.display='none';
+  document.getElementById('stMismoLabel').childNodes[0].nodeValue='Mi turno ';
+  document.getElementById('stTodosLabel').childNodes[0].nodeValue='Semana completa ';
+  const mismo=DATA.people.filter(p=>p!==currentUser && w.turnos[p]===turno);
+  document.getElementById('cntMismo').textContent=mismo.length;
+  const vm=document.getElementById('viewMismo'); vm.innerHTML='';
+  if(mismo.length===0){ vm.innerHTML='<div class="empty">Nadie más tiene el turno <b>'+turno+'</b> esta semana</div>'; }
+  else mismo.forEach(p=>{
+    const div=document.createElement('div'); div.className='person-row same';
+    div.style.setProperty('--c-color',conf.color); div.style.setProperty('--c-bg',conf.bg);
+    div.innerHTML='<div class="avatar">'+initials(p)+'</div><div class="info"><div class="name">'+p+'</div><div class="turno-tag">'+turno+' · '+conf.name+'</div></div><span class="turno-pill">'+turno+'</span>';
+    vm.appendChild(div);
+  });
+  document.getElementById('cntTodos').textContent=DATA.people.length;
+  const vt=document.getElementById('viewTodos'); vt.innerHTML='';
+  const groups={}; DATA.people.forEach(p=>{ const t=w.turnos[p]; (groups[t]=groups[t]||[]).push(p); });
   TURNO_ORDER.forEach(t=>{
-    if(!groups[t]) return; const c = TURNOS[t] || {color:'var(--text)',name:t};
-    const group = document.createElement('div'); group.className='turno-group';
-    group.innerHTML = `<div class="turno-group-head"><span class="badge" style="--g-color:${c.color};background:${c.color}">${t}</span><span class="label">${c.name}</span><span class="count-mini">${groups[t].length} ${groups[t].length===1?'persona':'personas'}</span></div>`;
-    const list = document.createElement('div'); list.className='people-list';
+    if(!groups[t]) return; const c=TURNOS[t]||{color:'var(--text)',name:t};
+    const g=document.createElement('div'); g.className='turno-group';
+    g.innerHTML='<div class="turno-group-head"><span class="badge" style="background:'+c.color+'">'+t+'</span><span class="label">'+c.name+'</span><span class="count-mini">'+groups[t].length+' '+(groups[t].length===1?'persona':'personas')+'</span></div>';
+    const list=document.createElement('div'); list.className='people-list';
     groups[t].forEach(p=>{
-      const isYou = p===currentUser; const div = document.createElement('div'); div.className='person-row' + (isYou?' same':'');
-      div.style.setProperty('--c-color', c.color); div.style.setProperty('--c-bg', c.bg);
-      div.innerHTML = `<div class="avatar">${initials(p)}</div><div class="info"><div class="name">${p}${isYou?' · <span style="color:'+c.color+';font-family:JetBrains Mono;font-size:10px;letter-spacing:0.1em">VOS</span>':''}</div><div class="turno-tag">${t} · ${c.name}</div></div>`;
+      const you=p===currentUser; const div=document.createElement('div'); div.className='person-row'+(you?' same':'');
+      div.style.setProperty('--c-color',c.color); div.style.setProperty('--c-bg',c.bg);
+      div.innerHTML='<div class="avatar">'+initials(p)+'</div><div class="info"><div class="name">'+p+(you?' · <span style="color:'+c.color+';font-family:JetBrains Mono;font-size:10px;letter-spacing:0.1em">VOS</span>':'')+'</div><div class="turno-tag">'+t+' · '+c.name+'</div></div>';
       list.appendChild(div);
     });
-    group.appendChild(list); viewTodos.appendChild(group);
+    g.appendChild(list); vt.appendChild(g);
   });
   renderCalendar();
 }
+function renderSup(){
+  const y=currentMonth.getFullYear(), m=currentMonth.getMonth();
+  const today=new Date(); today.setHours(0,0,0,0);
+  const isCurMonth=(y===today.getFullYear() && m===today.getMonth());
+  document.getElementById('weekIdx').textContent='SUPERVISIÓN · '+currentUser;
+  document.getElementById('weekLabel').textContent=MONTH_FULL[m+1]+' '+y;
+  document.getElementById('nowBadge').textContent='Mes actual';
+  document.getElementById('nowBadge').style.display=isCurMonth?'inline-flex':'none';
+  document.getElementById('prevW').disabled = new Date(y,m-1,1)<SUP_MIN;
+  document.getElementById('nextW').disabled = new Date(y,m+1,1)>SUP_MAX;
+  let refDate = isCurMonth ? today : new Date(y,m,1);
+  const tturnos=supIdx[key(refDate.getFullYear(),refDate.getMonth()+1,refDate.getDate())];
+  const myT=tturnos?tturnos[currentUser]:null; const conf=TURNOS[myT]||{color:'var(--text)',name:myT||'—',desc:''};
+  document.getElementById('turnoMetaWeek').textContent=isCurMonth?'hoy':'inicio de mes';
+  document.getElementById('turnoCode').textContent=myT||'—';
+  document.getElementById('turnoName').textContent=conf.name;
+  document.getElementById('turnoDesc').textContent=conf.desc||'Turno de supervisión.';
+  document.getElementById('turnoRange').textContent=DOW_FULL[refDate.getDay()]+' '+pad(refDate.getDate())+' '+MONTH_ES[refDate.getMonth()+1]+' '+refDate.getFullYear();
+  document.getElementById('turnoCard').style.setProperty('--t-color',conf.color);
+  // Técnicos que comparten el turno con este supervisor (según el día de referencia)
+  const crewEl=document.getElementById('supCargo');
+  const myWhich = myT==='D'?'dia':(myT==='N'?'noche':null);
+  if(myWhich){
+    const wIdx=findWeekForDate(refDate);
+    if(wIdx>=0){
+      const techs=techsForShift(DATA.weeks[wIdx], myWhich);
+      const col = myWhich==='dia'?'var(--d)':'var(--n)';
+      const turnoTxt = myWhich==='dia'?'DÍA':'NOCHE';
+      let chips = techs.length ? techs.map(t=>'<span class="crew-chip">'+t+'</span>').join('') : '<span class="crew-empty">Sin técnicos asignados</span>';
+      crewEl.innerHTML='<div class="crew-card" style="--sup-color:'+col+'"><div class="crew-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Técnicos en tu turno · '+turnoTxt+' <b>'+techs.length+'</b></div><div class="crew-chips">'+chips+'</div></div>';
+      crewEl.style.display='block';
+    } else crewEl.style.display='none';
+  } else crewEl.style.display='none';
+  document.getElementById('turnoNext').style.display='none';
+  document.getElementById('stMismoLabel').childNodes[0].nodeValue='Mi mes ';
+  document.getElementById('stTodosLabel').childNodes[0].nodeValue='Equipo sup. ';
+  const vm=document.getElementById('viewMismo'); vm.innerHTML='';
+  vm.appendChild(buildMonthCalendar(y,m,today));
+  vm.appendChild(buildSupLegendShifts());
+  document.getElementById('cntMismo').textContent='';
+  const vt=document.getElementById('viewTodos'); vt.innerHTML='';
+  const leg=document.createElement('div'); leg.className='sup-legend';
+  DATA.supervisors.forEach(s=>{ leg.innerHTML+='<div class="sl"><span class="sl-dot" style="background:'+SUP_COLORS[s]+'"></span><span class="sl-txt"><b>'+s+'</b></span></div>'; });
+  vt.appendChild(leg);
+  const wrap2=document.createElement('div'); wrap2.className='sup-week';
+  const dim=new Date(y,m+1,0).getDate();
+  for(let d=1; d<=dim; d++){
+    const cur=new Date(y,m,d); const tt=supIdx[key(y,m+1,d)]; const isToday=cur.getTime()===today.getTime();
+    let pills='';
+    DATA.supervisors.forEach(s=>{ const v=tt?tt[s]:null; const c=TURNOS[v]||{color:'var(--muted)'}; const me=s===currentUser;
+      pills+='<span class="sd-pill" style="background:'+c.color+';'+(me?'box-shadow:0 0 0 2px var(--text)':'')+'" title="'+s+'">'+(v||'—')+'</span>'; });
+    const row=document.createElement('div'); row.className='sup-day-row'+(isToday?' today':''); row.style.gridTemplateColumns='auto 1fr';
+    row.innerHTML='<div class="sd-date"><b>'+DOW_ES[cur.getDay()]+'</b>'+pad(d)+'/'+pad(m+1)+'</div><div style="display:flex;gap:5px;justify-content:flex-end">'+pills+'</div>';
+    wrap2.appendChild(row);
+  }
+  vt.appendChild(wrap2); document.getElementById('cntTodos').textContent='4';
+}
+function buildMonthCalendar(y,m,today){
+  const wrap=document.createElement('div'); wrap.className='mcal';
+  const head=document.createElement('div'); head.className='mcal-head';
+  DOW_MON.forEach(d=>{ const c=document.createElement('div'); c.textContent=d.slice(0,1); head.appendChild(c); });
+  wrap.appendChild(head);
+  const grid=document.createElement('div'); grid.className='mcal-grid';
+  const lead=(new Date(y,m,1).getDay()+6)%7;
+  for(let i=0;i<lead;i++){ const e=document.createElement('div'); e.className='mcal-cell empty'; grid.appendChild(e); }
+  const dim=new Date(y,m+1,0).getDate();
+  for(let d=1; d<=dim; d++){
+    const cur=new Date(y,m,d); cur.setHours(0,0,0,0);
+    const tt=supIdx[key(y,m+1,d)]; const v= tt? tt[currentUser] : null; const c=TURNOS[v]||{color:'var(--muted)',name:v||'—'};
+    const isToday=cur.getTime()===today.getTime();
+    const cell=document.createElement('div'); cell.className='mcal-cell'+(isToday?' today':'');
+    cell.innerHTML='<span class="mc-d">'+d+'</span>'+(v?('<span class="mc-pill" style="background:'+c.color+'">'+v+'</span>'):'<span class="mc-pill off">·</span>');
+    grid.appendChild(cell);
+  }
+  wrap.appendChild(grid);
+  return wrap;
+}
+function buildSupLegendShifts(){
+  const leg=document.createElement('div'); leg.className='sup-legend';
+  ['D','N','F','V'].forEach(code=>{ const c=TURNOS[code]; leg.innerHTML+='<div class="sl"><span class="sl-dot" style="background:'+c.color+'"></span><span class="sl-txt"><b>'+code+'</b> '+c.name+'</span></div>'; });
+  return leg;
+}
 function showSubtab(s){
-  document.getElementById('stMismo').classList.toggle('active', s==='mismo'); document.getElementById('stTodos').classList.toggle('active', s==='todos');
-  document.getElementById('viewMismo').style.display = s==='mismo'?'flex':'none'; document.getElementById('viewTodos').style.display = s==='todos'?'block':'none';
+  document.getElementById('stMismo').classList.toggle('active', s==='mismo');
+  document.getElementById('stTodos').classList.toggle('active', s==='todos');
+  document.getElementById('viewMismo').style.display = s==='mismo'?'flex':'none';
+  document.getElementById('viewTodos').style.display = s==='todos'?'block':'none';
 }
 function renderCalendar(){
-  const grid = document.getElementById('calGrid'); grid.innerHTML=''; const todayIdx = findCurrentWeek();
-  DATA.weeks.forEach((w,i)=>{
-    const t = w.turnos[currentUser]; const conf = TURNOS[t] || {color:'var(--text)',name:t};
-    const row = document.createElement('div'); row.className='cal-row' + (i===todayIdx?' current':''); row.style.setProperty('--t-color', conf.color);
-    row.innerHTML = `<div class="cal-date"><b>${pad(w.start.d)} ${MONTH_ES[w.start.m]}</b>S${i+1}</div><div class="cal-bar"></div><div class="cal-tag">${t}</div>`;
-    row.onclick = ()=>{currentWeek=i;showTab('week');}; grid.appendChild(row);
-  });
+  const grid=document.getElementById('calGrid'); grid.innerHTML='';
+  if(currentRole==='supervisor'){
+    const w=DATA.weeks[currentWeek]; const start=weekStartDate(w), end=weekEndDate(w);
+    const today=new Date(); today.setHours(0,0,0,0);
+    let cur=new Date(start);
+    while(cur<=end){
+      const tt=supIdx[key(cur.getFullYear(),cur.getMonth()+1,cur.getDate())]; const v=tt?tt[currentUser]:null; const c=TURNOS[v]||{color:'var(--muted)',name:v||'—'};
+      const isToday=cur.getTime()===today.getTime();
+      const row=document.createElement('div'); row.className='cal-row'+(isToday?' current':''); row.style.setProperty('--t-color',c.color);
+      row.innerHTML='<div class="cal-date"><b>'+pad(cur.getDate())+' '+MONTH_ES[cur.getMonth()+1]+'</b>'+DOW_ES[cur.getDay()]+'</div><div class="cal-bar"></div><div class="cal-tag">'+(v||'—')+'</div>';
+      grid.appendChild(row); cur.setDate(cur.getDate()+1);
+    }
+    return;
+  }
+  // === TÉCNICO: dos modos (Calendario / Lista) ===
+  const today=new Date(); today.setHours(0,0,0,0);
+  const monthNav=document.getElementById('calMonthNav');
+  const monthWrap=document.getElementById('calMonthWrap');
+  document.getElementById('cmCal').classList.toggle('active', calMode==='cal');
+  document.getElementById('cmList').classList.toggle('active', calMode==='list');
+  if(calMode==='cal'){
+    monthNav.style.display='flex'; monthWrap.style.display='block'; grid.style.display='none';
+    const y=calMonth.getFullYear(), m=calMonth.getMonth();
+    document.getElementById('calMonthLabel').textContent=MONTH_FULL[m+1]+' '+y;
+    document.getElementById('calPrevM').disabled = new Date(y,m-1,1)<TEC_MIN;
+    document.getElementById('calNextM').disabled = new Date(y,m+1,1)>TEC_MAX;
+    monthWrap.innerHTML='';
+    monthWrap.appendChild(buildMonthCalendarTec(y,m,today));
+    monthWrap.appendChild(buildTecLegendShifts());
+  } else {
+    monthNav.style.display='none'; monthWrap.style.display='none'; grid.style.display='flex';
+    const todayIdx=findCurrentWeek();
+    DATA.weeks.forEach((w,i)=>{
+      const t=w.turnos[currentUser]; const conf=TURNOS[t]||{color:'var(--text)',name:t};
+      const row=document.createElement('div'); row.className='cal-row'+(i===todayIdx?' current':''); row.style.setProperty('--t-color',conf.color);
+      row.innerHTML='<div class="cal-date"><b>'+pad(w.start.d)+' '+MONTH_ES[w.start.m]+'</b>S'+(i+1)+'</div><div class="cal-bar"></div><div class="cal-tag">'+t+'</div>';
+      row.onclick=()=>{currentWeek=i;showTab('week');};
+      grid.appendChild(row);
+    });
+  }
 }
-function pad(n){return String(n).padStart(2,'0')}
-function navWeek(d){ const n = currentWeek + d; if(n<0||n>=DATA.weeks.length) return; currentWeek = n; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function buildMonthCalendarTec(y,m,today){
+  const wrap=document.createElement('div'); wrap.className='mcal';
+  const head=document.createElement('div'); head.className='mcal-head';
+  DOW_MON.forEach(d=>{ const c=document.createElement('div'); c.textContent=d.slice(0,1); head.appendChild(c); });
+  wrap.appendChild(head);
+  const grid=document.createElement('div'); grid.className='mcal-grid';
+  const lead=(new Date(y,m,1).getDay()+6)%7;
+  for(let i=0;i<lead;i++){ const e=document.createElement('div'); e.className='mcal-cell empty'; grid.appendChild(e); }
+  const dim=new Date(y,m+1,0).getDate();
+  for(let d=1; d<=dim; d++){
+    const cur=new Date(y,m,d); cur.setHours(0,0,0,0);
+    const wIdx=findWeekForDate(cur);
+    let v=null, c={color:'var(--muted)'};
+    if(wIdx>=0){ v=DATA.weeks[wIdx].turnos[currentUser]; c=TURNOS[v]||c; }
+    const isToday=cur.getTime()===today.getTime();
+    const cell=document.createElement('div'); cell.className='mcal-cell'+(isToday?' today':'');
+    cell.innerHTML='<span class="mc-d">'+d+'</span>'+(v?('<span class="mc-pill" style="background:'+c.color+'">'+v+'</span>'):'<span class="mc-pill off">·</span>');
+    if(wIdx>=0){ cell.style.cursor='pointer'; cell.onclick=()=>{currentWeek=wIdx; showTab('week');}; }
+    grid.appendChild(cell);
+  }
+  wrap.appendChild(grid);
+  return wrap;
+}
+function buildTecLegendShifts(){
+  const leg=document.createElement('div'); leg.className='sup-legend';
+  ['D','N','D-N','N-D','F','D CP'].forEach(code=>{ const c=TURNOS[code]; if(!c) return; leg.innerHTML+='<div class="sl"><span class="sl-dot" style="background:'+c.color+'"></span><span class="sl-txt"><b>'+code+'</b></span></div>'; });
+  return leg;
+}
+function setCalMode(mode){ calMode=mode; renderCalendar(); }
+function navCalMonth(d){ const nm=new Date(calMonth.getFullYear(), calMonth.getMonth()+d,1); if(nm<TEC_MIN||nm>TEC_MAX) return; calMonth=nm; renderCalendar(); window.scrollTo({top:0,behavior:'smooth'}); }
+function navWeek(d){ const n=currentWeek+d; if(n<0||n>=DATA.weeks.length) return; currentWeek=n; doRender(); window.scrollTo({top:0,behavior:'smooth'}); }
+function navMonth(d){ const nm=new Date(currentMonth.getFullYear(), currentMonth.getMonth()+d, 1); if(nm<SUP_MIN||nm>SUP_MAX) return; currentMonth=nm; renderSup(); window.scrollTo({top:0,behavior:'smooth'}); }
+function navStep(d){ if(currentRole==='supervisor') navMonth(d); else navWeek(d); }
+function doRender(){ if(currentRole==='supervisor') renderSup(); else render(); }
 function showTab(t){
-  document.getElementById('weekView').style.display = t==='week'?'block':'none';
+  document.getElementById('weekView').style.display=t==='week'?'block':'none';
   document.getElementById('calView').classList.toggle('active', t==='cal');
-  document.getElementById('tabWeek').classList.toggle('active', t==='week'); document.getElementById('tabCal').classList.toggle('active', t==='cal');
-  if(t==='week') render();
+  document.getElementById('tabWeek').classList.toggle('active', t==='week');
+  document.getElementById('tabCal').classList.toggle('active', t==='cal');
+  if(t==='week'){ doRender(); }
+  else if(t==='cal'){ document.getElementById('calTitle').textContent=currentRole==='supervisor'?'Mi semana día a día':'Mi año'; renderCalendar(); }
 }
-function openPicker(){ document.getElementById('modalBg').classList.add('active'); const s = document.getElementById('modalSearchInput'); s.value=''; filterModalList(); setTimeout(()=>s.focus(), 300); }
-function closePicker(){document.getElementById('modalBg').classList.remove('active')}
 function searchDate(){
-  const input = document.getElementById('dateInput'); const result = document.getElementById('dateResult'); const val = input.value;
-  if(!val){ result.className='date-result show error'; result.innerHTML = '<div class="dr-date">⚠ Elegí una fecha primero</div>'; return; }
-  const [y,m,d] = val.split('-').map(Number); const date = new Date(y, m-1, d); const idx = findWeekForDate(date);
-  if(idx<0){ result.className='date-result show error'; result.innerHTML = '<div class="dr-date">⚠ Esa fecha está fuera del diagrama</div>'; return; }
-  const w = DATA.weeks[idx]; const turno = w.turnos[currentUser]; const conf = TURNOS[turno] || {color:'var(--text)',name:turno};
-  const dayName = ['DOMINGO','LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'][date.getDay()];
-  result.className='date-result show'; result.style.setProperty('--dr-color', conf.color);
-  result.innerHTML = `<div class="dr-date">${dayName} · ${pad(d)} ${MONTH_ES[m]} ${y}</div><div class="dr-turno"><div class="dr-code">${turno}</div><div class="dr-info"><div class="dr-name">${conf.name}</div><div class="dr-week">Semana ${idx+1} · ${pad(w.start.d)} ${MONTH_ES[w.start.m]} → ${pad(w.end.d)} ${MONTH_ES[w.end.m]}</div></div><button class="dr-go" onclick="currentWeek=${idx};render();window.scrollTo({top:0,behavior:'smooth'})">Ir →</button></div>`;
+  const input=document.getElementById('dateInput'); const result=document.getElementById('dateResult'); const val=input.value;
+  if(!val){ result.className='date-result show error'; result.innerHTML='<div class="dr-date">⚠ Elegí una fecha primero</div>'; return; }
+  const parts=val.split('-').map(Number); const y=parts[0],m=parts[1],d=parts[2]; const date=new Date(y,m-1,d);
+  if(currentRole==='supervisor'){
+    const tt=supIdx[key(y,m,d)];
+    if(!tt){ result.className='date-result show error'; result.innerHTML='<div class="dr-date">⚠ Esa fecha está fuera del diagrama</div>'; return; }
+    const v=tt[currentUser]; const conf=TURNOS[v]||{color:'var(--text)',name:v};
+    result.className='date-result show'; result.style.setProperty('--dr-color',conf.color);
+    result.innerHTML='<div class="dr-date">'+DOW_FULL[date.getDay()].toUpperCase()+' · '+pad(d)+' '+MONTH_ES[m]+' '+y+'</div><div class="dr-turno"><div class="dr-code">'+(v||'—')+'</div><div class="dr-info"><div class="dr-name">'+conf.name+'</div><div class="dr-week">Tu turno de supervisión</div></div></div>';
+    return;
+  }
+  const idx=findWeekForDate(date);
+  if(idx<0){ result.className='date-result show error'; result.innerHTML='<div class="dr-date">⚠ Esa fecha está fuera del diagrama</div>'; return; }
+  const w=DATA.weeks[idx]; const turno=w.turnos[currentUser]; const conf=TURNOS[turno]||{color:'var(--text)',name:turno};
+  result.className='date-result show'; result.style.setProperty('--dr-color',conf.color);
+  result.innerHTML='<div class="dr-date">'+DOW_FULL[date.getDay()].toUpperCase()+' · '+pad(d)+' '+MONTH_ES[m]+' '+y+'</div><div class="dr-turno"><div class="dr-code">'+turno+'</div><div class="dr-info"><div class="dr-name">'+conf.name+'</div><div class="dr-week">Semana '+(idx+1)+' · '+pad(w.start.d)+' '+MONTH_ES[w.start.m]+' → '+pad(w.end.d)+' '+MONTH_ES[w.end.m]+'</div></div><button class="dr-go" onclick="currentWeek='+idx+';doRender();window.scrollTo({top:0,behavior:\'smooth\'})">Ir →</button></div>';
 }
-document.addEventListener('DOMContentLoaded', ()=>{ const di = document.getElementById('dateInput'); if(di) di.addEventListener('change', searchDate); });
+document.addEventListener('DOMContentLoaded',()=>{ const di=document.getElementById('dateInput'); if(di) di.addEventListener('change',searchDate); });
 init();
 </script>
 </body>
